@@ -1,0 +1,26 @@
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+# Example data
+data = pd.DataFrame({
+    'symptom1': [1, 0, 1, 0, 1],
+    'symptom2': [0, 1, 1, 0, 0],
+    'age': [25, 50, 30, 60, 40],
+    'disease': [1, 0, 1, 0, 1]
+})
+
+# Define features and target
+X = data[['symptom1', 'symptom2', 'age']]
+y = data['disease']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Try different K values
+for k in range(1, 6):
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    print(f"K={k}, Accuracy={acc}")
