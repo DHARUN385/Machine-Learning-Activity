@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Load data (example)
+data = pd.DataFrame({
+    'month': range(1, 61),  # 5 years of monthly data
+    'electricity_consumption': np.random.rand(60) * 1000
+})
+
+# Create time and seasonal variables
+data['sin_month'] = np.sin(2 * np.pi * data['month'] / 12)  # Seasonal pattern (sin)
+data['cos_month'] = np.cos(2 * np.pi * data['month'] / 12)  # Seasonal pattern (cos)
+
+# Define features and target
+X = data[['month', 'sin_month', 'cos_month']]
+y = data['electricity_consumption']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predictions and evaluation
+predictions = model.predict(X_test)
+print("Coefficients:", model.coef_)
+print("Intercept:", model.intercept_)
