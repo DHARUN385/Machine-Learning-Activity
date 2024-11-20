@@ -1,0 +1,33 @@
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
+import graphviz
+
+# Example data
+import pandas as pd
+data = pd.DataFrame({
+    'market_trend': [1, 0, 1, 0, 1],
+    'economic_indicator': [0.8, 0.6, 0.7, 0.5, 0.9],
+    'investment_success': [1, 0, 1, 0, 1]
+})
+
+# Define features and target
+X = data[['market_trend', 'economic_indicator']]
+y = data['investment_success']
+
+# Fit decision tree
+model = DecisionTreeClassifier(max_depth=3, random_state=42)
+model.fit(X, y)
+
+# Visualize tree
+dot_data = export_graphviz(
+    model,
+    out_file=None,
+    feature_names=['market_trend', 'economic_indicator'],
+    class_names=['Fail', 'Success'],
+    filled=True,
+    rounded=True,
+    special_characters=True
+)
+
+graph = graphviz.Source(dot_data)
+graph.render("decision_tree")  # Save visualization
+graph.view()  # View in the default application
