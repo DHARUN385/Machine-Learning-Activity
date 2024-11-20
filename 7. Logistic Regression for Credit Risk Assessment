@@ -1,0 +1,23 @@
+import pandas as pd
+import statsmodels.api as sm
+
+# Example data
+data = pd.DataFrame({
+    'credit_score': [700, 650, 600, 750, 800],
+    'income_level': [50000, 40000, 30000, 60000, 70000],
+    'employment_status': [1, 0, 0, 1, 1],
+    'default': [0, 1, 1, 0, 0]
+})
+
+# Define features and target
+X = data[['credit_score', 'income_level', 'employment_status']]
+y = data['default']
+
+# Add constant for intercept
+X = sm.add_constant(X)
+
+# Fit logistic regression model
+model = sm.Logit(y, X).fit()
+
+# Print model summary
+print(model.summary())
