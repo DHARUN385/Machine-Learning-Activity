@@ -1,0 +1,23 @@
+import pandas as pd
+import statsmodels.api as sm
+
+# Load data (example)
+data = pd.DataFrame({
+    'study_hours': [10, 20, 15, 8, 30],
+    'attendance_rate': [0.8, 0.9, 0.7, 0.6, 1.0],
+    'socioeconomic_score': [3, 4, 2, 1, 5],
+    'test_score': [80, 90, 85, 70, 95]
+})
+
+# Define features (independent variables) and target (dependent variable)
+X = data[['study_hours', 'attendance_rate', 'socioeconomic_score']]
+y = data['test_score']
+
+# Add constant term for intercept
+X = sm.add_constant(X)
+
+# Fit linear regression model
+model = sm.OLS(y, X).fit()
+
+# Print model summary
+print(model.summary())
