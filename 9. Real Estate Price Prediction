@@ -1,0 +1,28 @@
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+# Example data
+import numpy as np
+data = {
+    'location_score': [8, 7, 9, 6, 5],
+    'size': [2000, 1500, 2500, 1800, 1400],
+    'bedrooms': [3, 2, 4, 3, 2],
+    'price': [500000, 400000, 600000, 450000, 350000]
+}
+
+# Define features and target
+X = pd.DataFrame(data, columns=['location_score', 'size', 'bedrooms'])
+y = pd.DataFrame(data, columns=['price'])
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Evaluate R-squared
+y_pred = model.predict(X_test)
+r_squared = r2_score(y_test, y_pred)
+print("R-squared:", r_squared)
